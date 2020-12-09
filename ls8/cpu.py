@@ -75,9 +75,9 @@ class CPU:
     def alu(self, op, reg_a, reg_b):
         """ALU operations."""
 
-        if op == "ADD":
-            self.reg[reg_a] += self.reg[reg_b]
-        elif op == "MUL":
+        # if op == ADD:
+        #     self.reg[reg_a] += self.reg[reg_b]
+        if op == MUL:
             self.reg[reg_a] *= self.reg[reg_b]
         #elif op == "SUB": etc
         else:
@@ -115,13 +115,24 @@ class CPU:
             elif command_to_execute == PRN:
                 print(self.reg[task_1])
                 self.pc += 2
-            elif command_to_execute == HLT:
-                self.running = False
-                self.pc += 1
             # elif command_to_execute == ADD:
             #     self.alu("ADD", task_1, task_2)
             #     self.pc += 3
             elif command_to_execute == MUL:
-                self.alu("MUL", task_1, task_2)
+                self.alu(command_to_execute, task_1, task_2)
                 self.pc += 3
-                
+            elif command_to_execute == PUSH:
+                self.reg[self.sp] -=1
+                val = self.reg[task_1]
+                self.ram[self.reg[self.sp]] = val
+                self.pc += 2
+            elif command_to_execute == POP:
+                reg = task_1
+                val = self.ram[self.reg[self.sp]]
+                self.reg[reg] = val
+                self.reg[self.sp] += 1
+                self.pc += 2
+            elif command_to_execute == HLT:
+                self.running = False
+                self.pc += 1
+                    

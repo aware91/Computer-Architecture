@@ -5,7 +5,9 @@
 import sys
 from cpu import *
 
-cpu = CPU()
-
-cpu.load(file_name_from_command_line)
-cpu.run()
+if len(sys.argv) != 2:
+    print("wrong number of arguments passed in")
+else:
+    cpu = CPU()
+    cpu.load(sys.argv[1])
+    cpu.run()
